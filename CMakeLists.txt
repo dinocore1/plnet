@@ -1,8 +1,12 @@
 cmake_minimum_required (VERSION 3.10)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+include(DownloadProject)
 
 project(PLNet)
 set(CMAKE_CXX_STANDARD 14)
+set (PLNET_VERSION_MAJOR 1)
+set (PLNET_VERSION_MINOR 0)
+option(BUILD_TESTS "Build unit tests" ON)
 
 list(APPEND UDT_SRCS
     "udt/api.cpp"
@@ -22,3 +26,17 @@ list(APPEND UDT_SRCS
 
 include_directories(udt)
 add_library (udt ${UDT_SRCS})
+
+include_directories(include)
+add_library(plnet 
+    "src/Id.cpp"
+    )
+
+if(BUILD_TESTS)
+    download_project(PROJ               googletest
+                    GIT_REPOSITORY      https://github.com/google/googletest.git
+                    GIT_TAG             master
+    )
+    add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+
+endif()
