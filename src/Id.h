@@ -5,6 +5,10 @@
 namespace plnet
 {
 
+/**
+ * Kademlia
+ */
+
 #define ID_BYTE_SIZE 20
 
 	class Id
