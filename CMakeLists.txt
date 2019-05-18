@@ -26,6 +26,7 @@ list(APPEND UDT_SRCS
 
 include_directories(udt)
 add_library (udt ${UDT_SRCS})
+target_compile_definitions(udt PRIVATE UDT_EXPORTS)
 
 include_directories(include)
 add_library(plnet 
