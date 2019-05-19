@@ -28,10 +28,10 @@ include_directories(udt)
 add_library (udt ${UDT_SRCS})
 target_compile_definitions(udt PRIVATE UDT_EXPORTS OSX)
 
-include_directories(include)
-add_executable(plnet 
+include_directories(src)
+add_library(plnet 
     "src/Id.cpp"
-    "src/main.cpp"
+    "src/Socket.cpp"
     )
 target_link_libraries(plnet udt)
 
@@ -41,5 +41,11 @@ if(BUILD_TESTS)
                     GIT_TAG             master
     )
     add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+
+    add_executable(tests 
+        "test/SocketTests.cpp"
+        )
+    target_link_libraries(tests plnet gtest gmock_main)
+    add_test(NAME tests COMMAND tests)
 
 endif()
