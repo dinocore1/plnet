@@ -35,6 +35,11 @@ add_library(plnet
     )
 target_link_libraries(plnet udt)
 
+add_executable(plnet_client
+    "src/main.cpp"
+    )
+target_link_libraries(plnet_client plnet)
+
 if(BUILD_TESTS)
     download_project(PROJ               googletest
                     GIT_REPOSITORY      https://github.com/google/googletest.git

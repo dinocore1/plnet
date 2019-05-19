@@ -3,9 +3,30 @@
 #include <udt.h>
 #include <iostream>
 
+#include "Socket.h"
+
+using namespace plnet;
 using namespace std;
 
-int main(int argc, char* argv[]) {
+#define BUF_SIZE 128
+
+int main(int argc, char* argv[])
+{
+    byte_t buf[BUF_SIZE];
+
+    Socket socket;
+    Socket::create(AF_INET, SOCK_DGRAM, &socket);
+    socket.bind(INetAddress("0.0.0.0", 9000));
+
+    socket.recvmsg(buf, BUF_SIZE);
+
+    
+    socket.listen(10);
+
+    int namelen;
+    sockaddr_in their_addr;
+
+    socket.accept((sockaddr*)&their_addr, &namelen);
 
     UDTSOCKET serv = UDT::socket(AF_INET, SOCK_STREAM, 0);
 
@@ -23,8 +44,7 @@ int main(int argc, char* argv[]) {
 
 UDT::listen(serv, 10);
 
-int namelen;
-sockaddr_in their_addr;
+
 
 UDTSOCKET recver = UDT::accept(serv, (sockaddr*)&their_addr, &namelen);
 
